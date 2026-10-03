@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>เตรียมสอบเข้า ม.4 เตรียมอุดมฯ สายวิทย์-คณิต</title>
+    <!-- Google Fonts & Font Awesome Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --primary: #4f46e5;
+            --primary-hover: #4338ca;
+            --bg-color: #f8fafc;
+            --card-bg: #ffffff;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --border: #e2e8f0;
+            --math-color: #ef4444;
+            --bio-color: #10b981;
+            --physics-color: #3b82f6;
+            --chem-color: #8b5cf6;
+            --thai-color: #f59e0b;
+            --eng-color: #ec4899;
+            --social-color: #14b8a6;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Kanit', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            padding-bottom: 60px;
+        }
+
+        /* Header & Dashboard */
+        header {
+            background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%);
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+        }
+
+        header h1 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        header p {
+            color: #c7d2fe;
+            font-size: 1.1rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: -30px auto 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Progress Card */
+        .dashboard-card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
+            margin-bottom: 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .progress-bar-bg {
+            background-color: var(--border);
+            height: 16px;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .progress-bar-fill {
+            background: linear-gradient(90deg, #10b981, #3b82f6);
+            height: 100%;
+            width: 0%;
+            transition: width 0.4s ease;
+        }
+
+        /* Subject Filters / Tabs */
+        .subject-nav {
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+
+        .nav-btn {
+            background: white;
+            border: 1px solid var(--border);
+            padding: 10px 20px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: 500;
+            white-space: nowrap;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-btn.active, .nav-btn:hover {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        /* Modules Grid */
+        .topic-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+            gap: 20px;
+        }
+
+        .topic-card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            padding: 20px;
+            transition: transform 0.2s, box-shadow 0.2s;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .topic-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px -5px rgba(0,0,0,0.08);
+        }
+
+        .topic-card-header {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            margin-bottom: 15px;
+        }
+
+        .checkbox-custom {
+            width: 22px;
+            height: 22px;
+            cursor: pointer;
+            accent-color: var(--primary);
+            margin-top: 3px;
+        }
+
+        .topic-title {
+            font-size: 1.05rem;
+            font-weight: 600;
+            cursor: pointer;
+            line-height: 1.4;
+        }
+
+        .topic-title.completed {
+            text-decoration: line-through;
+            color: var(--text-muted);
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+
+        .btn-learn {
+            background: var(--bg-color);
+            color: var(--primary);
+            border: 1px solid var(--border);
+            padding: 8px 14px;
+            border-radius: 8px;
+            font-weight: 500;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 10px;
+            transition: all 0.2s;
+            text-align: center;
+        }
+
+        .btn-learn:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        /* Learning Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            padding: 20px;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 16px;
+            max-width: 700px;
+            width: 100%;
+            max-height: 85vh;
+            overflow-y: auto;
+            padding: 30px;
+            position: relative;
+            box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1);
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-muted);
+        }
+
+        .modal-body {
+            margin-top: 20px;
+            line-height: 1.6;
+        }
+
+        .modal-body h3 {
+            margin: 15px 0 8px 0;
+            color: var(--primary);
+        }
+
+        .modal-body ul {
+            margin-left: 20px;
+            margin-bottom: 15px;
+        }
+
+        /* Color Badges */
+        .bg-math { background: #fee2e2; color: var(--math-color); }
+        .bg-bio { background: #d1fae5; color: var(--bio-color); }
+        .bg-physics { background: #dbeafe; color: var(--physics-color); }
+        .bg-chem { background: #f3e8ff; color: var(--chem-color); }
+        .bg-thai { background: #fef3c7; color: var(--thai-color); }
+        .bg-eng { background: #fce7f3; color: var(--eng-color); }
+        .bg-social { background: #ccfbf1; color: var(--social-color); }
+
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1><i class="fa-solid => fa-graduation-cap"></i> TU Science-Math Portal</h1>
+        <p>คลังเนื้อหา & เช็กลิสต์เตรียมสอบเข้า ม.4 เตรียมอุดมศึกษา (สายวิทย์–คณิต)</p>
+    </header>
+
+    <div class="container">
+        <!-- Progress Dashboard -->
+        <div class="dashboard-card">
+            <div class="progress-header">
+                <h3><i class="fa-solid fa-chart-line"></i> ความก้าวหน้าการอ่านหนังสือ</h3>
+                <span id="progress-text" style="font-weight: 700; color: var(--primary);">0% (0/0)</span>
+            </div>
+            <div class="progress-bar-bg">
+                <div class="progress-bar-fill" id="progress-fill"></div>
+            </div>
+        </div>
+
+        <!-- Category Nav -->
+        <div class="subject-nav" id="subject-nav">
+            <button class="nav-btn active" onclick="filterSubject('all')">ทั้งหมด</button>
+            <button class="nav-btn" onclick="filterSubject('คณิตศาสตร์')"><i class="fa-solid fa-calculator"></i> คณิตศาสตร์</button>
+            <button class="nav-btn" onclick="filterSubject('ชีววิทยา')"><i class="fa-solid fa-dna"></i> ชีววิทยา</button>
+            <button class="nav-btn" onclick="filterSubject('ฟิสิกส์')"><i class="fa-solid fa-atom"></i> ฟิสิกส์</button>
+            <button class="nav-btn" onclick="filterSubject('เคมี')"><i class="fa-solid fa-flask"></i> เคมี</button>
+            <button class="nav-btn" onclick="filterSubject('ภาษาไทย')"><i class="fa-solid fa-book-open"></i> ภาษาไทย</button>
+            <button class="nav-btn" onclick="filterSubject('ภาษาอังกฤษ')"><i class="fa-solid fa-language"></i> ภาษาอังกฤษ</button>
+            <button class="nav-btn" onclick="filterSubject('สังคมศึกษา')"><i class="fa-solid fa-globe"></i> สังคมศึกษา</button>
+        </div>
+
+        <!-- Topics Grid -->
+        <div class="topic-grid" id="topic-grid">
+            <!-- Dynamic Injection -->
+        </div>
+    </div>
+
+    <!-- Learning Content Modal -->
+    <div class="modal-overlay" id="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal()">&times;</span>
+            <span class="badge" id="modal-badge">Subject</span>
+            <h2 id="modal-title">Topic Title</h2>
+            <div class="modal-body" id="modal-body">
+                <!-- Learning Content dynamically populated -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Full Syllabus Dataset
+        const syllabus = [
+            // คณิตศาสตร์
+            { id: 1, subject: "คณิตศาสตร์", title: "จำนวนเต็ม เศษส่วน ทศนิยม การคำนวณผสม เครื่องหมายวงเล็บ", badgeClass: "bg-math", summary: "หลักการลำดับการคำนวณ (BODMAS/PEMDAS) การจัดการเครื่องหมายบวกลบคูณหาร และเทคนิคการแปลงทศนิยมซ้ำเป็นเศษส่วน" },
+            { id: 2, subject: "คณิตศาสตร์", title: "เลขยกกำลัง ราก การแยกตัวประกอบพหุนาม", badgeClass: "bg-math", summary: "สมบัติเลขยกกำลัง กรณฑ์ที่สอง/สาม การถอดรากที่สองซ้อนราก และการแปลงตัวเลขให้อยู่ในรูปอย่างง่าย" },
+            { id: 3, subject: "คณิตศาสตร์", title: "พหุนาม และการแยกตัวประกอบ (กำลังสองสมบูรณ์ ผลต่างกำลังสอง)", badgeClass: "bg-math", summary: "สูตรสำคัญ: $(a+b)^2 = a^2 + 2ab + b^2$, $a^2 - b^2 = (a-b)(a+b)$ รวมถึงผลบวก/ผลต่างกำลังสาม" },
+            { id: 4, subject: "คณิตศาสตร์", title: "สมการเชิงเส้นหนึ่งตัวแปร และอสมการเชิงเส้น", badgeClass: "bg-math", summary: "การย้ายข้างสมการ อสมการเชิงเส้นและการสลับเครื่องหมายเมื่อคูณ/หารด้วยจำนวนลบ พร้อมโจทย์ปัญหาประยุกต์" },
+            { id: 5, subject: "คณิตศาสตร์", title: "ระบบสมการเชิงเส้นสองตัวแปร (แทนค่า และกำจัดตัวแปร)", badgeClass: "bg-math", summary: "วิธีการแก้ระบบสมการ 2 วิธีหลัก (การกำจัดตัวแปร vs การแทนค่า) และโจทย์ปัญหาระบบสมการ" },
+            { id: 6, subject: "คณิตศาสตร์", title: "สมการกำลังสอง และกราฟพาราโบลา", badgeClass: "bg-math", summary: "สูตร $x = \\frac{-b \\pm \\sqrt{b^2 - 4ac}}{2a}$ กราฟพาราโบลา หงาย/คว่ำ จุดยอด $(h,k)$ และค่าสูงสุด-ต่ำสุด" },
+            { id: 7, subject: "คณิตศาสตร์", title: "ความสัมพันธ์และฟังก์ชันเบื้องต้น กราฟเส้นตรง", badgeClass: "bg-math", summary: "ความขนานและความตั้งฉากของเส้นตรง ($m_1 = m_2$, $m_1 \\cdot m_2 = -1$) ระยะห่างระหว่างจุดและเส้นตรง" },
+            { id: 8, subject: "คณิตศาสตร์", title: "เรขาคณิตพื้นฐาน: เส้นตรง มุม สามเหลี่ยม สี่เหลี่ยม", badgeClass: "bg-math", summary: "มุมภายในรูป $n$-เหลี่ยม, ทฤษฎีบทเส้นขนาน, สามเหลี่ยมคล้าย และความเท่ากันทุกประการ" },
+            { id: 9, subject: "คณิตศาสตร์", title: "ทฤษฎีบทพิทาโกรัส และการประยุกต์", badgeClass: "bg-math", summary: "สูตร $c^2 = a^2 + b^2$ อัตราส่วนชุดเลขพิทาโกรัสยอดฮิต (3-4-5, 5-12-13, 7-24-25, 8-15-17)" },
+            { id: 10, subject: "คณิตศาสตร์", title: "พื้นที่และปริมาตรของรูปเรขาคณิต", badgeClass: "bg-math", summary: "สูตรหาพื้นที่ผิวและปริมาตรของ ปริซึม ทรงกลม ทรงกระบอก กรวย และพีระมิด" },
+            { id: 11, subject: "คณิตศาสตร์", title: "ความน่าจะเป็นเบื้องต้น", badgeClass: "bg-math", summary: "สูตร $P(E) = \\frac{n(E)}{n(S)}$ กฎการนับเบื้องต้น แผนภาพต้นไม้ และการสุ่มหยิบสิ่งของ" },
+            { id: 12, subject: "คณิตศาสตร์", title: "สถิติพื้นฐาน (ค่าเฉลี่ย มัธยฐาน ฐานนิยม อ่านกราฟ)", badgeClass: "bg-math", summary: "การหาค่ากลางข้อมูล ($\bar{x}$, Med, Mode) แผนภาพต้น-ใบ แผนภาพกล่อง และการอ่านแผนภูมิแท่ง/วงกลม" },
+
+            // ชีววิทยา
+            { id: 13, subject: "ชีววิทยา", title: "โครงสร้างและหน้าที่ของเซลล์", badgeClass: "bg-bio", summary: "ข้อแตกต่างระหว่างเซลล์พืชและเซลล์สัตว์ ออร์แกเนลล์สำคัญ: ไมโทคอนเดรีย, คลอโรพลาสต์, ไรโบโซม, ER" },
+            { id: 14, subject: "ชีววิทยา", title: "การแบ่งเซลล์แบบไมโทซิส–ไมโอซิส", badgeClass: "bg-bio", summary: "Mitosis (เซลล์ร่างกาย ได้ 2 เซลล์เท่าเดิม) vs Meiosis (เซลล์สืบพันธุ์ ได้ 4 เซลล์ โครโมโซมลดลงครึ่งหนึ่ง)" },
+            { id: 15, subject: "ชีววิทยา", title: "ระบบเลือดและการหมุนเวียน", badgeClass: "bg-bio", summary: "หัวใจ 4 ห้อง การเวียนเลือดผ่านปอดและร่างกาย ส่วนประกอบของเลือด (เม็ดเลือดแดง, ขาว, เกล็ดเลือด) และหมู่เลือด ABO" },
+            { id: 16, subject: "ชีววิทยา", title: "ระบบหายใจ", badgeClass: "bg-bio", summary: "การแลกเปลี่ยนแก๊สที่ถุงลมปอด กลไกการกะบังลมและกระดูกซี่โครงขณะหายใจเข้า-ออก" },
+            { id: 17, subject: "ชีววิทยา", title: "ระบบย่อยอาหาร", badgeClass: "bg-bio", summary: "การย่อยเชิงกลและการย่อยเชิงเคมี เอนไซม์จากปาก กระเพาะอาหาร ตับอ่อน และลำไส้เล็ก" },
+            { id: 18, subject: "ชีววิทยา", title: "ระบบขับถ่าย", badgeClass: "bg-bio", summary: "โครงสร้างไต ไตส่วนนอก/ส่วนใน หน่วยไต (Nephron) การกรอง การดูดกลับ และการขับออก" },
+            { id: 19, subject: "ชีววิทยา", title: "ระบบประสาทและฮอร์โมน", badgeClass: "bg-bio", summary: "เซลล์ประสาท (Neuron) สมองส่วนต่าง ๆ เซลล์รับสัมผัส ต่อมไร้ท่อและฮอร์โมนสำคัญ เช่น อินซูลิน, อะดรีนาลีน" },
+            { id: 20, subject: "ชีววิทยา", title: "พืช: สังเคราะห์ด้วยแสง การลำเลียง โครงสร้างราก ลำต้น ใบ", badgeClass: "bg-bio", summary: "สมการสังเคราะห์ด้วยแสง, Xylem (น้ำ) vs Phloem (อาหาร), ปากใบ (Stomata) และโครงสร้างตัดตามขวาง" },
+            { id: 21, subject: "ชีววิทยา", title: "พันธุกรรมพื้นฐาน: ยีน โครโมโซม ลักษณะเด่น–ด้อย", badgeClass: "bg-bio", summary: "กฎของเมนเดล ตาราง Punnett Square จีโนไทป์ เพโนไทป์ และโรคทางพันธุกรรมที่ถ่ายทอดผ่านโครโมโซมร่างกาย/เพศ" },
+
+            // ฟิสิกส์
+            { id: 22, subject: "ฟิสิกส์", title: "การเคลื่อนที่ในแนวตรง ความเร็ว ความเร่ง กราฟ s–t, v–t", badgeClass: "bg-physics", summary: "การกระจัด ระยะทาง อัตราเร็ว ความเร็ว ความเร่ง การอ่านความหมายจากพื้นที่ใต้กราฟ v-t" },
+            { id: 23, subject: "ฟิสิกส์", title: "แรงและกฎการเคลื่อนที่เบื้องต้น", badgeClass: "bg-physics", summary: "กฎนิวตัน 3 ข้อ ($F=0, \\sum F=ma, Action=Reaction$) แรงลัพธ์ แรงเสียดทาน ($f=\\mu N$)" },
+            { id: 24, subject: "ฟิสิกส์", title: "งาน พลังงาน กำลัง และการอนุรักษ์พลังงาน", badgeClass: "bg-physics", summary: "งาน $W = Fs \\cos\\theta$, พลังงานจลน์ $E_k = \\frac{1}{2}mv^2$, พลังงานศักย์ $E_p = mgh$, กฎการอนุรักษ์พลังงาน" },
+            { id: 25, subject: "ฟิสิกส์", title: "ความดันในของเหลว การลอย–จม", badgeClass: "bg-physics", summary: "ความดัน $P = \\rho gh$, แรงลอยตัว $F_B = \\rho_{fluid} V_{submerged} g$ และหลักของอาร์คิมีดิส" },
+            { id: 26, subject: "ฟิสิกส์", title: "แสง: สะท้อน หักเห ภาพในกระจก/เลนส์", badgeClass: "bg-physics", summary: "กฎการสะท้อน, กฎของสเนลล์ ($n_1 \\sin\\theta_1 = n_2 \\sin\\theta_2$), ภาพจริง-ภาพเสมือนจากกระจกโค้งและเลนส์" },
+            { id: 27, subject: "ฟิสิกส์", title: "เสียง: การเกิดเสียง คุณสมบัติพื้นฐาน", badgeClass: "bg-physics", summary: "ตัวกลางการเคลื่อนที่ ความดัง (แอมพลิจูด) ความสูงต่ำของเสียง (ความถี่) และมลภาวะทางเสียง" },
+            { id: 28, subject: "ฟิสิกส์", title: "ไฟฟ้า: วงจรร่างง่าย กระแส แรงดัน ความต้านทาน กฎของโอห์ม", badgeClass: "bg-physics", summary: "กฎของโอห์ม $V = IR$, การต่อความต้านทานแบบอนุกรม vs ขนาน, พลังงานและกำลังไฟฟ้า ($P = VI = I^2R$)" },
+
+            // เคมี
+            { id: 29, subject: "เคมี", title: "สารและสมบัติ: สถานะ ความหนาแน่น จุดหลอมเหลว/เดือด", badgeClass: "bg-chem", summary: "สถานะของสาร (ของแข็ง ของเหลว แก๊ส) สูตรความหนาแน่น $D = m/V$ จุดเดือดจุดหลอมเหลวของสารบริสุทธิ์ vs สารผสม" },
+            { id: 30, subject: "เคมี", title: "การเปลี่ยนแปลงของสาร: ละลาย เกิดสารใหม่ ปฏิกิริยาเบื้องต้น", badgeClass: "bg-chem", summary: "การเปลี่ยนแปลงทางกายภาพ vs ทางเคมี, ปฏิกิริยากรด-เบส, ปฏิกิริยาการเผาไหม้, ปฏิกิริยาตกตะกอน" },
+            { id: 31, subject: "เคมี", title: "โครงสร้างอะตอมอย่างง่าย และตารางธาตุ", badgeClass: "bg-chem", summary: "อนุภาคในอะตอม (โปรตอน นิวตรอน อิเล็กตรอน) เลขอะตอม เลขมวล การจัดเรียงอิเล็กตรอน และตารางธาตุหมู่/คาบ" },
+            { id: 32, subject: "เคมี", title: "การจำแนกสาร: สารเนื้อเดียว–สารเนื้อผสม สารละลาย คอลลอยด์", badgeClass: "bg-chem", summary: "ข้อแตกต่างระหว่าง สารละลาย คอลลอยด์ แขวนลอย (ทดสอบด้วยปรากฏการณ์ทินดอลล์) และการแยกสารวิธีต่าง ๆ" },
+
+            // ภาษาไทย
+            { id: 33, subject: "ภาษาไทย", title: "การอ่านจับใจความ", badgeClass: "bg-thai", summary: "การหาใจความสำคัญ (Main Idea) ของบทความ เทคนิคการตัดส่วนขยาย และการตอบคำถามจากเรื่องที่อ่าน" },
+            { id: 34, subject: "ภาษาไทย", title: "ประเภทของข้อความ", badgeClass: "bg-thai", summary: "การแยกแข้อความแสดงข้อเท็จจริง vs ข้อคิดเห็น, ข้อความเทศนา บรรยาย อธิบาย และพรรณนา" },
+            { id: 35, subject: "ภาษาไทย", title: "ชนิดของคำ (นาม สรรพนาม กริยา วิเศษณ์)", badgeClass: "bg-thai", summary: "หน้าที่ของคำไทย 7 ชนิด: คำนาม คำสรรพนาม คำกริยา คำวิเศษณ์ คำบุพบท คำเชื่อม คำสันธาน และคำอุทาน" },
+            { id: 36, subject: "ภาษาไทย", title: "การใช้คำถูกต้อง การสะกดคำที่มักผิด คำยืม", badgeClass: "bg-thai", summary: "การสังเกตคำยืมภาษาบาลี-สันสกฤต เขมร จีน อังกฤษ และคำที่มักสะกดผิดบ่อยในข้อสอบ" },
+            { id: 37, subject: "ภาษาไทย", title: "โวหารภาพพจน์", badgeClass: "bg-thai", summary: "อุปมา (เปรียบเหมือน), อุปลักษณ์ (เปรียบเป็น), บุคลาธิษฐาน (ใส่ชีวิตให้สิ่งไม่มีชีวิต), สทิสลักษณ์/สัญลักษณ์" },
+            { id: 38, subject: "ภาษาไทย", title: "กลอน/คำประพันธ์เบื้องต้น", badgeClass: "bg-thai", summary: "ฉันทลักษณ์กลอนสุภาพ (กลอนแปด), กาพย์ยานี 11, โคลงสี่สุภาพ และการสัมผัสนอก-สัมผัสใน" },
+
+            // ภาษาอังกฤษ
+            { id: 39, subject: "ภาษาอังกฤษ", title: "ประเภทคำ (noun verb adjective adverb preposition)", badgeClass: "bg-eng", summary: "Parts of Speech: การทำหน้าที่ของคำ ตำแหน่ง Adjective vs Adverb และ Preposition ที่มักใช้ออกสอบ" },
+            { id: 40, subject: "ภาษาอังกฤษ", title: "โครงสร้างประโยคพื้นฐาน", badgeClass: "bg-eng", summary: "Sentence Structures: Simple, Compound, Complex และ Compound-Complex Sentences" },
+            { id: 41, subject: "ภาษาอังกฤษ", title: "Tense พื้นฐาน (Present Simple Continuous Past Simple Future Simple)", badgeClass: "bg-eng", summary: "โครงสร้าง และ Keyword ตัวบอกเวลาสำคัญของ Present/Past/Future Tenses และ Perfect Tenses" },
+            { id: 42, subject: "ภาษาอังกฤษ", title: "Subject–Verb Agreement", badgeClass: "bg-eng", summary: "กฎการผันกริยาให้สอดคล้องกับประธาน กรณีประธานเชื่อมด้วย or/nor, either...or, together with, along with" },
+            { id: 43, subject: "ภาษาอังกฤษ", title: "คำเชื่อม (and but because so although)", badgeClass: "bg-eng", summary: "Transitions & Conjunctions: แสดงผลลัพธ์ (so, therefore), แสดงความขัดแย้ง (but, although, in spite of)" },
+            { id: 44, subject: "ภาษาอังกฤษ", title: "Vocabulary ระดับ ม.ต้น", badgeClass: "bg-eng", summary: "คลังคำศัพท์พ้องความหมาย (Synonym), คำตรงข้าม (Antonym), และ Prefix/Suffix การวิเคราะห์รากศัพท์" },
+            { id: 45, subject: "ภาษาอังกฤษ", title: "Reading จับใจความ + สกิม–สแกน", badgeClass: "bg-eng", summary: "เทคนิค Skimming (อ่านข้ามเพื่อจับภาพรวม) & Scanning (การค้นหาข้อมูลเฉพาะ เช่น เลข ปี ชื่อคน)" },
+
+            // สังคมศึกษา
+            { id: 46, subject: "สังคมศึกษา", title: "ประวัติศาสตร์ไทย: สุโขทัย อยุธยา รัตนโกสินทร์", badgeClass: "bg-social", summary: "พัฒนาการทางการเมือง สังคม เศรษฐกิจ บุคคลสำคัญ และเหตุการณ์สำคัญของแต่ละยุคสมัย" },
+            { id: 47, subject: "สังคมศึกษา", title: "หน้าที่พลเมืองและโครงสร้างการปกครอง", badgeClass: "bg-social", summary: "รัฐธรรมนูญ อำนาจอธิปไตย 3 ฝ่าย (นิติบัญญัติ บริหาร ตุลาการ) สิทธิและหน้าที่ของประชาชนตามกฎหมาย" },
+            { id: 48, subject: "สังคมศึกษา", title: "เศรษฐศาสตร์เบื้องต้น", badgeClass: "bg-social", summary: "อุปสงค์ (Demand) - อุปทาน (Supply), ราคาดุลยภาพ, เงินเฟ้อ-เงินฝืด, และระบบเศรษฐกิจแบบต่างๆ" },
+            { id: 49, subject: "สังคมศึกษา", title: "ภูมิศาสตร์: อ่านแผนที่ ภูมิอากาศ ภูมิประเทศ", badgeClass: "bg-social", summary: "เครื่องมือทางภูมิศาสตร์ พิกัดภูมิศาสตร์ (ละติจูด-ลองจิจูด) ปรากฏการณ์ทางธรรมชาติ และระบบภูมิอากาศ" }
+        ];
+
+        // Storage and State
+        let checkedState = JSON.parse(localStorage.getItem('tu_prep_checked')) || {};
+        let currentFilter = 'all';
+
+        // Initialize UI
+        function renderTopics() {
+            const grid = document.getElementById('topic-grid');
+            grid.innerHTML = '';
+
+            const filteredData = currentFilter === 'all' 
+                ? syllabus 
+                : syllabus.filter(item => item.subject === currentFilter);
+
+            filteredData.forEach(item => {
+                const isChecked = checkedState[item.id] || false;
+                
+                const card = document.createElement('div');
+                card.className = 'topic-card';
+                card.innerHTML = `
+                    <div>
+                        <span class="badge ${item.badgeClass}">${item.subject}</span>
+                        <div class="topic-card-header">
+                            <input type="checkbox" class="checkbox-custom" 
+                                ${isChecked ? 'checked' : ''} 
+                                onchange="toggleCheck(${item.id})">
+                            <span class="topic-title ${isChecked ? 'completed' : ''}" onclick="toggleCheck(${item.id})">
+                                ${item.title}
+                            </span>
+                        </div>
+                    </div>
+                    <button class="btn-learn" onclick="openModal(${item.id})">
+                        <i class="fa-solid fa-book-open-reader"></i> อ่านเนื้อหา & สรุป
+                    </button>
+                `;
+                grid.appendChild(card);
+            });
+
+            updateProgress();
+        }
+
+        function toggleCheck(id) {
+            checkedState[id] = !checkedState[id];
+            localStorage.setItem('tu_prep_checked', JSON.stringify(checkedState));
+            renderTopics();
+        }
+
+        function updateProgress() {
+            const total = syllabus.length;
+            const completed = Object.values(checkedState).filter(Boolean).length;
+            const percentage = Math.round((completed / total) * 100);
+
+            document.getElementById('progress-text').innerText = `${percentage}% (${completed}/${total})`;
+            document.getElementById('progress-fill').style.width = `${percentage}%`;
+        }
+
+        function filterSubject(subject) {
+            currentFilter = subject;
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.currentTarget.classList.add('active');
+            renderTopics();
+        }
+
+        // Modal Functions
+        function openModal(id) {
+            const topic = syllabus.find(item => item.id === id);
+            if (!topic) return;
+
+            document.getElementById('modal-title').innerText = topic.title;
+            document.getElementById('modal-badge').innerText = topic.subject;
+            document.getElementById('modal-badge').className = `badge ${topic.badgeClass}`;
+            
+            document.getElementById('modal-body').innerHTML = `
+                <h3><i class="fa-solid fa-lightbulb"></i> สรุปใจความสำคัญ (Summary)</h3>
+                <p>${topic.summary}</p>
+                
+                <h3><i class="fa-solid fa-list-check"></i> ขอบเขตเน้นหนักข้อสอบเตรียมอุดมฯ</h3>
+                <ul>
+                    <li>ทำความเข้าใจนิยามและสูตรพื้นฐานที่เกี่ยวข้อง</li>
+                    <li>ฝึกทำโจทย์ย้อนหลังอย่างน้อย 5-10 ปีในหัวข้อนี้</li>
+                    <li>จดสรุปสั้นด้วยลายมือตนเองเพื่อความจำที่แม่นยำ</li>
+                </ul>
+
+                <div style="background-color: #f1f5f9; padding: 15px; border-radius: 8px; margin-top: 15px;">
+                    <i class="fa-solid fa-circle-info"></i> <strong>คำแนะนำเพิ่มเติม:</strong> สำหรับหัวข้อ ${topic.title} ควรแบ่งเวลาฝึกทำโจทย์แนวสปีดเทสต์ (Speed Test) เพิ่มเติมด้วย
+                </div>
+            `;
+
+            document.getElementById('modal').style.display = 'flex';
+        }
+
+        function closeModal() {
+            document.getElementById('modal').style.display = 'none';
+        }
+
+        // Close Modal on outside click
+        window.onclick = function(event) {
+            const modal = document.getElementById('modal');
+            if (event.target === modal) {
+                closeModal();
+            }
+        }
+
+        // Initial Execution
+        renderTopics();
+    </script>
+</body>
+</html>
